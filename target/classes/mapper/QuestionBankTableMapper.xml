@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.software.bank.mapper.QuestionBankTableMapper">
+  <resultMap id="BaseResultMap" type="cn.software.bank.model.QuestionBankTable">
+    <id column="stem_id" jdbcType="VARCHAR" property="stemId" />
+    <result column="question_type" jdbcType="VARCHAR" property="questionType" />
+    <result column="stem" jdbcType="VARCHAR" property="stem" />
+    <result column="option_a" jdbcType="VARCHAR" property="optionA" />
+    <result column="option_b" jdbcType="VARCHAR" property="optionB" />
+    <result column="option_c" jdbcType="VARCHAR" property="optionC" />
+    <result column="option_d" jdbcType="VARCHAR" property="optionD" />
+    <result column="option_e" jdbcType="VARCHAR" property="optionE" />
+    <result column="answer" jdbcType="LONGVARCHAR" property="answer" />
+    <result column="points" jdbcType="VARCHAR" property="points" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from question_bank_table
+    where stem_id = #{stemId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="cn.software.bank.model.QuestionBankTable">
+    insert into question_bank_table (stem_id, question_type, stem, 
+      option_a, option_b, option_c, 
+      option_d, option_e, answer, points
+      )
+    values (#{stemId,jdbcType=VARCHAR}, #{questionType,jdbcType=VARCHAR}, #{stem,jdbcType=VARCHAR}, 
+      #{optionA,jdbcType=VARCHAR}, #{optionB,jdbcType=VARCHAR}, #{optionC,jdbcType=VARCHAR}, 
+      #{optionD,jdbcType=VARCHAR}, #{optionE,jdbcType=VARCHAR}, #{answer,jdbcType=LONGVARCHAR}, #{points,jdbcType=VARCHAR}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="cn.software.bank.model.QuestionBankTable">
+    update question_bank_table
+    set question_type = #{questionType,jdbcType=VARCHAR},
+      stem = #{stem,jdbcType=VARCHAR},
+      option_a = #{optionA,jdbcType=VARCHAR},
+      option_b = #{optionB,jdbcType=VARCHAR},
+      option_c = #{optionC,jdbcType=VARCHAR},
+      option_d = #{optionD,jdbcType=VARCHAR},
+      option_e = #{optionE,jdbcType=VARCHAR},
+      answer = #{answer,jdbcType=LONGVARCHAR},
+      points = #{points,jdbcType=VARCHAR}
+    where stem_id = #{stemId,jdbcType=VARCHAR}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select stem_id, question_type, stem, option_a, option_b, option_c, option_d, option_e, 
+    answer, points
+    from question_bank_table
+    where stem_id = #{stemId,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select stem_id, question_type, stem, option_a, option_b, option_c, option_d, option_e, 
+    answer, points
+    from question_bank_table
+  </select>
+  
+   <select id="selectByType" resultMap="BaseResultMap">
+    select stem_id, question_type, stem, option_a, option_b, option_c, option_d, option_e, 
+    answer, points
+    from question_bank_table where question_type = #{type,jdbcType=VARCHAR}
+  </select>
+  
+    <select id="selectPoints" resultType="java.lang.String">
+    SELECT points  FROM question_bank_table GROUP BY points
+  </select>
+
+    <select id="selectByPoints" resultMap="BaseResultMap">
+    select stem_id, question_type, stem, option_a, option_b, option_c, option_d, option_e, 
+    answer, points
+    from question_bank_table where points = #{points,jdbcType=VARCHAR}
+  </select>
+</mapper>
